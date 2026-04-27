@@ -5,7 +5,7 @@ top-level blocks across a directory tree, with an interactive TUI picker and a
 markdown plan report.
 
 Built on [`hashicorp/hcl/v2`](https://github.com/hashicorp/hcl) so edits
-preserve formatting, comments, and whitespace — only the blocks you target are
+preserve formatting, comments, and whitespace, only the blocks you target are
 rewritten.
 
 ## Install
@@ -47,7 +47,7 @@ By default tfhcl runs in **dry-run** mode and writes nothing. Pass
 
 ## Scope: what tfhcl edits
 
-tfhcl operates on **top-level blocks** — the outermost `resource`, `module`,
+tfhcl operates on **top-level blocks**: the outermost `resource`, `module`,
 `data`, `variable`, `output`, `locals`, `provider`, `terraform`, etc. blocks of
 each `.tf` file. It does **not** touch:
 
@@ -56,7 +56,7 @@ each `.tf` file. It does **not** touch:
 - Heredocs, expressions, or any block bodies
 
 If you need attribute-level edits, use
-[`minamijoyo/hcledit`](https://github.com/minamijoyo/hcledit) — it composes
+[`minamijoyo/hcledit`](https://github.com/minamijoyo/hcledit): it composes
 cleanly with tfhcl.
 
 ## Operations
@@ -66,11 +66,11 @@ cleanly with tfhcl.
 | `sort`   | Reorder top-level blocks alphabetically by type and labels (file-wide)   |
 | `remove` | Delete blocks that match the selector(s)                                 |
 | `move`   | Cut matching blocks and write them to the file given by `--out`          |
-| `list`   | Print matching blocks (read-only) — for piping into shell tools          |
+| `list`   | Print matching blocks (read-only), for piping into shell tools          |
 
 ### `sort` notes
 
-`sort` ignores all selectors — it always reorders every top-level block in
+`sort` ignores all selectors, it always reorders every top-level block in
 each scanned file. Top-level attributes (rare in practice) are kept above the
 sorted block sequence. `--interactive` cannot be combined with `sort`.
 
@@ -125,7 +125,7 @@ Examples:
 | `locals`                                  | every `locals` block                        |
 | `terraform`                               | every `terraform` block                     |
 
-Multiple `--select` flags **OR** together — a block matches if any selector
+Multiple `--select` flags **OR** together, a block matches if any selector
 matches.
 
 ### Legacy match flags
@@ -202,7 +202,7 @@ contains both `iam` and `admin`.
 Notes:
 
 - `--interactive` does not apply to `--op sort` (sort runs file-wide, not per
-  block) — tfhcl will exit with an error.
+  block), tfhcl will exit with an error.
 - Confirming with no selections is treated as a cancel; tfhcl prints
   `No blocks selected.` and exits 0 without modifying anything.
 - Selection precision survives duplicate names across files: tfhcl tracks
@@ -212,7 +212,7 @@ Notes:
 ## Plan mode (`--plan`)
 
 Add `--plan` to any operation to swap the terse summary for a markdown change
-report — useful in CI, PR comments, or piping into `glow`:
+report, useful in CI, PR comments, or piping into `glow`:
 
 ```sh
 tfhcl --root ./infra --op remove --select 'resource.aws_*' --plan > plan.md
@@ -226,7 +226,7 @@ The report includes:
 - A `## Summary` section with totals
 
 Plan mode is **purely an output format**. It does not imply dry-run on its
-own — combine with `--in-place --dry-run=false` to actually apply the changes
+own, combine with `--in-place --dry-run=false` to actually apply the changes
 while still emitting the markdown report.
 
 ## File discovery
@@ -240,7 +240,7 @@ in `.tf`. When `--root` is a single `.tf` file, only that file is processed.
 | Skip dirs         | `.git`, `.terraform` | `--exclude-dirs a,b,c` (comma-separated) |
 | Hidden files/dirs | skipped              | `--include-hidden`                       |
 
-Files are processed in lexicographic order. There is no parallelism — runs
+Files are processed in lexicographic order, there is no parallelism and runs
 are deterministic and easy to script around.
 
 ```sh
@@ -272,7 +272,7 @@ tfhcl --root . --exclude-dirs '' --include-hidden --op sort
 | `0`  | Success (including "no matches" and user cancellation)   |
 | `1`  | Any error: bad flags, parse failure, I/O error, etc.     |
 
-`--op list` always returns 0 — even with zero matches — so it's safe to use
+`--op list` always returns 0, even with zero matches, so it's safe to use
 in shell pipelines guarded by `set -e`.
 
 ## Output & color
@@ -364,7 +364,7 @@ tfhcl --root . --op list -i
 ## Comparison with hcledit
 
 [`minamijoyo/hcledit`](https://github.com/minamijoyo/hcledit) is the
-established tool in this space — if you need attribute-level edits (read,
+established tool in this space, if you need attribute-level edits (read,
 update, append individual `key = value` lines), use it. tfhcl focuses on
 **top-level block operations across many files** with a directory-walking
 interface, glob selectors, an interactive picker, and a markdown plan report.
