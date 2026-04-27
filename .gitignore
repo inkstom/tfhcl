@@ -1,0 +1,23 @@
+# Compiled binaries
+/tfhcl
+/dist/
+/build/
+
+# Test artifacts
+coverage.out
+coverage.html
+*.test
+*.prof
+
+# Backup files written by tfhcl itself
+*.bak
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Go
+vendor/
